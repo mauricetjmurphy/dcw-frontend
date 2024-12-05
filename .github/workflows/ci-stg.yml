@@ -4,15 +4,14 @@ on:
   push:
     branches:
       - stg
-    schedule:
-      - cron: '0 19 * * 1-5'
+  schedule:
+    - cron: '0 19 * * 1-5'
 
 env:
   AWS_ROLE_TO_ASSUME: arn:aws:iam::144817152095:role/GitHub-actions-iam
   AWS_REGION: us-east-1
-  CLOUDFRONT_DISTRIBUTION_ID:
-  S3_BUCKET_NAME:
-  NODE_VERSION: 20
+  CLOUDFRONT_DISTRIBUTION_ID: ED8TJZ4X8RCYS
+  S3_BUCKET_NAME: prod-dcw-bucket-cdn
 
 jobs:
   build:
@@ -22,8 +21,17 @@ jobs:
         node: [20]
     needs: [unit-test]
     steps:
-      - name: Checkout Commit
+      - name: Checkout Staging Branch
         uses: actions/checkout@v2
+        with:
+          ref: stg
+
+      - name: Merge Dev into Staging
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git fetch origin dev
+          git merge --no-ff --no-edit origin/dev
 
       - name: Cache Node.js modules
         uses: actions/cache@v3

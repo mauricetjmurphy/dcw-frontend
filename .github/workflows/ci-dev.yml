@@ -11,8 +11,8 @@ on:
 env:
   AWS_ROLE_TO_ASSUME: arn:aws:iam::144817152095:role/GitHub-actions-iam
   AWS_REGION: us-east-1
-  CLOUDFRONT_DISTRIBUTION_ID:
-  S3_BUCKET_NAME:
+  CLOUDFRONT_DISTRIBUTION_ID: ED8TJZ4X8RCYS
+  S3_BUCKET_NAME: prod-dcw-bucket-cdn
 
 jobs:
   unit-test:
