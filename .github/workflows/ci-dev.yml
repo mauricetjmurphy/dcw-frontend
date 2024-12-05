@@ -96,9 +96,6 @@ jobs:
       contents: read
 
     steps:
-      - name: List directory
-        run: ls -a
-
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
