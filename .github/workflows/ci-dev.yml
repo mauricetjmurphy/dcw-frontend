@@ -1,0 +1,119 @@
+name: Development CI Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+
+env:
+  AWS_ROLE_TO_ASSUME: arn:aws:iam::144817152095:role/GitHub-actions-iam
+  AWS_REGION: us-east-1
+  CLOUDFRONT_DISTRIBUTION_ID: 
+  S3_BUCKET_NAME: 
+  NODE_VERSION: 20
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [${{ env.NODE_VERSION }}]
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn test --passWithNoTests
+
+  build:
+    needs: unit-test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [${{ env.NODE_VERSION }}]
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+
+      - name: Cache Node.js modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/yarn
+            **/node_modules
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'yarn'
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run build
+        run: yarn build:dev
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact
+          path: build/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v2
+
+      - name: Create build directory
+        run: mkdir -p build
+
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifact
+          path: build/
+
+      - name: Setup AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ env.AWS_ROLE_TO_ASSUME }}
+          role-session-name: GitHubActionsSession
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy to Amazon S3
+        run: |
+          echo "Deploying to S3 from directory:"
+          aws s3 sync --delete build/ s3://${{ env.S3_BUCKET_NAME }}
+          echo "Starting CloudFront invalidation..."
+          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'

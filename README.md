@@ -1,50 +1,15 @@
-# React + TypeScript + Vite
+# Documated Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to the Documated Frontend repository! This is the frontend codebase for Documated, a business website specializing in delivering cutting-edge technical services with a focus on automation. The site is designed to provide businesses with streamlined, user-friendly access to our automation solutions.
 
-Currently, two official plugins are available:
+## 🛠️ Technology Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Framework: React with TypeScript for type safety.
+- State Management: Zustand for managing application state.
+- Styling: ChakraUI for rapid UI development.
+- Build Tool: Vite for fast builds and hot module replacement.
+- Testing: Jest and React Testing Library for comprehensive test coverage.
 
-## Expanding the ESLint configuration
+## Deployment status
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+![Development](https://github.com/mauricetjmurphy/mce-frontend/actions/workflows/c--dev.yml/badge.svg)
