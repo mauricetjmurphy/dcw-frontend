@@ -83,21 +83,16 @@ jobs:
         with:
           name: build-artifact
           path: build/
-          retention-days: 1
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write
       contents: read
+
     steps:
-      - name: Checkout Commit
-        uses: actions/checkout@v2
-
-      - name: Create build directory
-        run: mkdir -p build
-
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
