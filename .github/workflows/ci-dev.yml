@@ -115,6 +115,6 @@ jobs:
       - name: Deploy to Amazon S3
         run: |
           echo "Deploying to S3 from directory:"
-          aws s3 sync --delete build/ s3://${{ env.S3_BUCKET_NAME }}
+          aws s3 sync --delete dist/ s3://${{ env.S3_BUCKET_NAME }}
           echo "Starting CloudFront invalidation..."
           aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
