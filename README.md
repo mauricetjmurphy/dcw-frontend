@@ -12,4 +12,4 @@ Welcome to the Documated Frontend repository! This is the frontend codebase for 
 
 ## Deployment status
 
-![Development](https://github.com/mauricetjmurphy/mce-frontend/actions/workflows/ci-dev.yml/badge.svg) ![License](https://img.shields.io/badge/license-MIT-blue)
+![Development](https://github.com/mauricetjmurphy/dcw-frontend/actions/workflows/ci-dev.yml/badge.svg) ![License](https://img.shields.io/badge/license-MIT-blue)
