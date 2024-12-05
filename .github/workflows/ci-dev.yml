@@ -11,16 +11,15 @@ on:
 env:
   AWS_ROLE_TO_ASSUME: arn:aws:iam::144817152095:role/GitHub-actions-iam
   AWS_REGION: us-east-1
-  CLOUDFRONT_DISTRIBUTION_ID: 
-  S3_BUCKET_NAME: 
-  NODE_VERSION: 20
+  CLOUDFRONT_DISTRIBUTION_ID:
+  S3_BUCKET_NAME:
 
 jobs:
   unit-test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [${{ env.NODE_VERSION }}]
+        node: [20]
     steps:
       - name: Checkout Commit
         uses: actions/checkout@v2
@@ -52,7 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node: [${{ env.NODE_VERSION }}]
+        node: [20]
     steps:
       - name: Checkout Commit
         uses: actions/checkout@v2
