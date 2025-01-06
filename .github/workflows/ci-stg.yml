@@ -14,34 +14,45 @@ env:
   S3_BUCKET_NAME: prod-dcw-bucket-cdn
 
 jobs:
+  unit-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn test
+
   build:
+    needs: [unit-test]
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node: [20]
-    needs: [unit-test]
     steps:
-      - name: Checkout Staging Branch
+      - name: Checkout Code
         uses: actions/checkout@v2
-        with:
-          ref: stg
 
       - name: Merge Dev into Staging
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git fetch origin dev
-          git merge --no-ff --no-edit origin/dev
+          git merge --no-ff --no-edit origin/dev || {
+            echo "Merge conflict detected. Please resolve conflicts manually."
+            exit 1
+          }
 
       - name: Cache Node.js modules
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.cache/yarn
-            **/node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.cache/yarn
+          key: ${{ runner.os }}-node-${{ hashFiles('package.json', '**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-node-
 
       - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v3
@@ -59,7 +70,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifact
-          path: build/
+          path: build/**/*
 
   deploy:
     needs: build
@@ -88,7 +99,14 @@ jobs:
 
       - name: Deploy to Amazon S3
         run: |
-          echo "Deploying to S3 from directory:"
-          aws s3 sync --delete build/ s3://${{ env.S3_BUCKET_NAME }}
-          echo "Starting CloudFront invalidation..."
-          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'
+          aws s3 sync --delete build/ s3://${{ env.S3_BUCKET_NAME }} || {
+            echo "S3 deployment failed"
+            exit 1
+          }
+
+      - name: Start CloudFront Invalidation
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*' || {
+            echo "CloudFront invalidation failed"
+            exit 1
+          }
