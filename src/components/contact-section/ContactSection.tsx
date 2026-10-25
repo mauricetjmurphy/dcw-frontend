@@ -1,68 +1,42 @@
-import { Box, Button, Text, useMediaQuery } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react';
+import { Link } from 'react-router-dom';
 import { Container } from '../container/Container';
-import { FadeIn } from '../fade-in/FadeIn';
-import { Office } from '../offices/Office';
 
 export function ContactSection() {
-  const [isLargerThan600] = useMediaQuery('(min-width: 600px)');
-  const navigate = useNavigate();
-
   return (
-    <Container
-      sx={{
-        mt: { base: 24, sm: 32, lg: 40 },
-        bg: '#000',
-        borderRadius: '40px',
-        maxWidth: '100vw',
-      }}
-    >
-      <FadeIn>
-        <Box
-          sx={{
-            mx: 'auto',
-            maxW: '4xl',
-            p: isLargerThan600 ? '128px 48px' : '64px 0px',
-          }}
-        >
-          <Box
-            sx={{
-              maxW: 'xl',
-            }}
-          >
-            <Text
-              variant={'h2'}
-              sx={{
-                fontFamily: "'Mona Sans', sans-serif",
-                fontSize: { base: '3xl', sm: '4xl' },
-                fontWeight: 'medium',
-                color: 'white',
-                overflowWrap: 'balance',
-              }}
-            >
-              Tell us about your project
-            </Text>
-            <Box
-              sx={{
-                mt: 6,
-                display: 'flex',
-              }}
-            >
-              <Button onClick={() => navigate('/contact')}>Contact Us</Button>
-            </Box>
-            <Box
-              sx={{
-                mt: 10,
-                borderTop: '1px solid',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                pt: 10,
-              }}
-            >
-              <Office invert />
-            </Box>
-          </Box>
+    <Container sx={{ mt: { base: 20, md: 32 } }}>
+      <Flex
+        direction={{ base: 'column', md: 'row' }}
+        align={{ md: 'center' }}
+        justify="space-between"
+        gap={8}
+        bg="signature.500"
+        color="white"
+        borderRadius="panel"
+        px={{ base: 6, md: 14 }}
+        py={{ base: 10, md: 14 }}
+      >
+        <Box maxW="34rem">
+          <Heading as="h2" color="white" fontSize={{ base: '2xl', md: '3xl' }}>
+            Tell us about the process that eats your week
+          </Heading>
+          <Text mt={4} color="signature.100" fontSize="lg">
+            A 30-minute call is enough to tell you whether it can be automated,
+            and roughly what it would take.
+          </Text>
         </Box>
-      </FadeIn>
+        <Button
+          as={Link}
+          to="/contact"
+          size="lg"
+          variant="secondary"
+          borderColor="transparent"
+          flexShrink={0}
+          alignSelf={{ base: 'flex-start', md: 'center' }}
+        >
+          Book a scoping call
+        </Button>
+      </Flex>
     </Container>
   );
 }

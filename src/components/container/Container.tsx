@@ -1,5 +1,5 @@
-import React from "react";
-import { As, Box, SystemStyleObject } from "@chakra-ui/react";
+import React from 'react';
+import { As, Box, SystemStyleObject } from '@chakra-ui/react';
 
 interface ContainerProps {
   as?: As;
@@ -12,20 +12,13 @@ export function Container({ as, sx, children }: ContainerProps) {
     <Box
       as={as}
       sx={{
-        mx: "auto",
-        maxW: "7xl",
-        px: { base: 6, lg: 8 },
+        mx: 'auto',
+        maxW: '76rem',
+        px: { base: 5, md: 8 },
         ...sx,
       }}
     >
-      <Box
-        sx={{
-          mx: "auto",
-          maxW: { base: "2xl", lg: "none" },
-        }}
-      >
-        {children}
-      </Box>
+      {children}
     </Box>
   );
 }
