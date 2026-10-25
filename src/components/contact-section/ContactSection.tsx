@@ -10,7 +10,7 @@ export function ContactSection() {
         align={{ md: 'center' }}
         justify="space-between"
         gap={8}
-        bg="signature.500"
+        bg="ink.900"
         color="white"
         borderRadius="panel"
         px={{ base: 6, md: 14 }}
@@ -20,7 +20,7 @@ export function ContactSection() {
           <Heading as="h2" color="white" fontSize={{ base: '2xl', md: '3xl' }}>
             Tell us about the process that eats your week
           </Heading>
-          <Text mt={4} color="signature.100" fontSize="lg">
+          <Text mt={4} color="#C9C9C3" fontSize="lg">
             A 30-minute call is enough to tell you whether it can be automated,
             and roughly what it would take.
           </Text>
@@ -29,8 +29,7 @@ export function ContactSection() {
           as={Link}
           to="/contact"
           size="lg"
-          variant="secondary"
-          borderColor="transparent"
+          variant="highlight"
           flexShrink={0}
           alignSelf={{ base: 'flex-start', md: 'center' }}
         >

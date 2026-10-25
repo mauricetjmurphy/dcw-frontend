@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { Container } from '@/components/container/Container';
 import { PageIntro } from '@/components/page-intro/PageIntro';
 import { sendMessage } from '@/services/api/message';
+import { usePageMeta } from '@/lib/seo/usePageMeta';
 
 const budgets = [
   { value: '1-5', label: '€1K – €5K' },
@@ -176,13 +177,7 @@ function ContactForm() {
         >
           <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={3} mt={1}>
             {budgets.map((budget) => (
-              <Radio
-                key={budget.value}
-                value={budget.value}
-                colorScheme="signature"
-                borderColor="ink.300"
-                bg="paper"
-              >
+              <Radio key={budget.value} value={budget.value}>
                 {budget.label}
               </Radio>
             ))}
@@ -212,6 +207,12 @@ function ContactForm() {
 }
 
 export default function Contact() {
+  usePageMeta({
+    title: 'Contact',
+    description:
+      "Tell us about the manual process you'd like to automate and book a scoping call. Email info@documated.com or send us a message.",
+  });
+
   return (
     <>
       <PageIntro title="Tell us about your process">
@@ -237,7 +238,11 @@ export default function Contact() {
                 mt={1}
                 display="inline-block"
                 href="mailto:info@documated.com"
-                color="signature.600"
+                color="ink.900"
+                textDecoration="underline"
+                textDecorationColor="highlight"
+                textDecorationThickness="4px"
+                textUnderlineOffset="2px"
               >
                 info@documated.com
               </Link>

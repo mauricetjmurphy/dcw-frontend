@@ -25,5 +25,5 @@ deploy-stg: build-stg
 	aws cloudfront create-invalidation --distribution-id "" --paths '/*'
 
 deploy-prod: build-prod
-	aws s3 sync --delete dist/ s3://prod-dcw-bucket-cdn
+	scripts/deploy.sh prod-dcw-bucket-cdn dist
 	aws cloudfront create-invalidation --distribution-id "ED8TJZ4X8RCYS" --paths '/*'

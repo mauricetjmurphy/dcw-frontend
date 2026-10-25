@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import { CSSProperties } from 'react';
 
 interface LogoProps {
   logoSrc: string;
@@ -7,7 +7,9 @@ interface LogoProps {
 }
 
 const Logo = ({ logoSrc, width, style }: LogoProps) => {
-  return <img style={{ ...style }} src={logoSrc} alt="Logo" width={width} />;
+  return (
+    <img style={{ ...style }} src={logoSrc} alt="Documated" width={width} />
+  );
 };
 
 export default Logo;

@@ -55,7 +55,7 @@ function StepIcon({ state }: { state: 'done' | 'running' | 'queued' }) {
       <Spinner
         boxSize="22px"
         thickness="2px"
-        color="signature.500"
+        color="ink.900"
         emptyColor="rule"
         speed="0.8s"
       />
@@ -94,7 +94,13 @@ function DocLine({ w }: { w: string }) {
 
 export function RunLog() {
   const reduceMotion = useReducedMotion();
-  const [progress, setProgress] = useState(reduceMotion ? steps.length : 0);
+  // Starts at 0 in the prerendered HTML too, so hydration matches; with
+  // reduced motion the run jumps straight to its finished state.
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (reduceMotion) setProgress(steps.length);
+  }, [reduceMotion]);
 
   useEffect(() => {
     if (progress >= steps.length) return;
@@ -114,7 +120,7 @@ export function RunLog() {
       border="1px solid"
       borderColor="rule"
       borderRadius="panel"
-      boxShadow="0 1px 2px rgba(22, 26, 43, 0.06), 0 24px 48px -24px rgba(22, 26, 43, 0.25)"
+      boxShadow="0 1px 2px rgba(18, 18, 18, 0.06), 0 24px 48px -24px rgba(18, 18, 18, 0.28)"
       overflow="hidden"
       fontSize="sm"
     >
@@ -140,8 +146,8 @@ export function RunLog() {
           borderRadius="full"
           fontWeight={600}
           fontSize="xs"
-          bg={finished ? '#E3F4EC' : 'signature.50'}
-          color={finished ? 'ok' : 'signature.600'}
+          bg={finished ? '#E3F4EC' : 'highlight'}
+          color={finished ? 'ok' : 'ink.900'}
         >
           {finished ? 'Completed in 4.1s' : 'Running'}
         </Text>
@@ -195,7 +201,7 @@ export function RunLog() {
           <Box
             bg="paper"
             borderRadius="4px"
-            boxShadow="0 1px 3px rgba(22, 26, 43, 0.12)"
+            boxShadow="0 1px 3px rgba(18, 18, 18, 0.12)"
             p={5}
             fontSize="11px"
             lineHeight={1.9}
@@ -258,7 +264,7 @@ export function RunLog() {
         <Button
           size="sm"
           variant="ghost"
-          color="signature.600"
+          color="ink.900"
           leftIcon={<IconPlayerPlay size={14} />}
           isDisabled={!finished}
           onClick={() => setProgress(0)}

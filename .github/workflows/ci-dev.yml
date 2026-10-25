@@ -96,6 +96,9 @@ jobs:
       contents: read
 
     steps:
+      - name: Checkout Commit
+        uses: actions/checkout@v4
+
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
@@ -111,7 +114,6 @@ jobs:
 
       - name: Deploy to Amazon S3
         run: |
-          echo "Deploying to S3 from directory:"
-          aws s3 sync --delete dist/ s3://${{ env.S3_BUCKET_NAME }}
+          scripts/deploy.sh ${{ env.S3_BUCKET_NAME }} dist
           echo "Starting CloudFront invalidation..."
           aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} --paths '/*'

@@ -14,6 +14,7 @@ import { Container } from '@/components/container/Container';
 import { ContactSection } from '@/components/contact-section/ContactSection';
 import { RunLog } from '@/components/run-log/RunLog';
 import { processSteps } from '@/pages/process/steps';
+import { usePageMeta } from '@/lib/seo/usePageMeta';
 
 import diyLogo from '@/assets/images/diy-logo.png';
 
@@ -160,7 +161,7 @@ function Services() {
                       size={18}
                       flexShrink={0}
                       mt="4px"
-                      color="signature.500"
+                      color="ink.900"
                     />
                     {example}
                   </ListItem>
@@ -278,7 +279,7 @@ function ProcessSummary() {
               as="li"
               key={step.title}
               borderTop="2px solid"
-              borderColor={i === 0 ? 'signature.500' : 'rule'}
+              borderColor={i === 0 ? 'ink.900' : 'rule'}
               pt={5}
             >
               <Text fontSize="sm" color="ink.500" fontWeight={600}>
@@ -317,6 +318,8 @@ function Stack() {
 }
 
 const HomePage = () => {
+  usePageMeta({ title: 'Business automation and custom software' });
+
   return (
     <>
       <Hero />

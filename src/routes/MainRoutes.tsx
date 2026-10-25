@@ -1,15 +1,14 @@
-import { lazy } from "react";
-import Loadable from "@/components/loadable/Loadable";
+import RootLayout from '@/components/layout/RootLayout';
+import HomePage from '@/pages/home/Home';
+import About from '@/pages/about/About';
+import Contact from '@/pages/contact/Contact';
+import Process from '@/pages/process/Process';
+import NotFound from '@/pages/not-found/NotFound';
 
-import RootLayout from "@/components/layout/RootLayout";
-import HomePage from "@/pages/home/Home";
-
-const About = Loadable(lazy(() => import("@/pages/about/About")));
-const Contact = Loadable(lazy(() => import("@/pages/contact/Contact")));
-const Process = Loadable(lazy(() => import("@/pages/process/Process")));
-
+// Pages load eagerly: every page is prerendered, and the site is small
+// enough that splitting it buys nothing.
 const MainRoutes = {
-  path: "/",
+  path: '/',
   element: <RootLayout />,
   children: [
     {
@@ -17,16 +16,20 @@ const MainRoutes = {
       element: <HomePage />,
     },
     {
-      path: "/about",
+      path: '/about',
       element: <About />,
     },
     {
-      path: "/process",
+      path: '/process',
       element: <Process />,
     },
     {
-      path: "/contact",
+      path: '/contact',
       element: <Contact />,
+    },
+    {
+      path: '*',
+      element: <NotFound />,
     },
   ],
 };

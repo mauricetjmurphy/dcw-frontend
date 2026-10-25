@@ -3,6 +3,7 @@ import { ContactSection } from '@/components/contact-section/ContactSection';
 import { Container } from '@/components/container/Container';
 import { PageIntro } from '@/components/page-intro/PageIntro';
 import { processSteps } from './steps';
+import { usePageMeta } from '@/lib/seo/usePageMeta';
 
 const values = [
   [
@@ -24,6 +25,12 @@ const values = [
 ];
 
 export default function Process() {
+  usePageMeta({
+    title: 'How we work',
+    description:
+      'How Documated takes a manual process from first call to running software: discovery, short build cycles with demos, launch on AWS, and support after launch.',
+  });
+
   return (
     <>
       <PageIntro title="How we work">
@@ -48,7 +55,7 @@ export default function Process() {
               borderColor="rule"
             >
               <Box>
-                <Text fontSize="sm" color="signature.600" fontWeight={600}>
+                <Text fontSize="sm" color="ink.500" fontWeight={600}>
                   Step {i + 1}
                 </Text>
                 <Heading as="h2" mt={1} fontSize={{ base: '2xl', md: '3xl' }}>

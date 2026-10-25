@@ -2,6 +2,7 @@ import { Box, Grid, Heading, Text } from '@chakra-ui/react';
 import { ContactSection } from '@/components/contact-section/ContactSection';
 import { Container } from '@/components/container/Container';
 import { PageIntro } from '@/components/page-intro/PageIntro';
+import { usePageMeta } from '@/lib/seo/usePageMeta';
 import imageMauriceMurphy from '@/assets/images/maurice_murphy.jpg';
 
 const beliefs = [
@@ -20,6 +21,12 @@ const beliefs = [
 ];
 
 export default function About() {
+  usePageMeta({
+    title: 'About',
+    description:
+      'Documated is a small Dublin studio that builds automations and focused software products for small teams. You work directly with the developer building it.',
+  });
+
   return (
     <>
       <PageIntro title="A small studio that builds software for small teams">

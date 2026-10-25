@@ -1,24 +1,17 @@
 import { extendTheme } from '@chakra-ui/react';
 
-// Paper and signature-ink palette: documents are what Documated automates.
+// Black ink and highlighter on paper: documents are what Documated automates.
 const colors = {
   ink: {
-    900: '#161A2B',
-    700: '#3A4058',
-    500: '#646B85',
-    300: '#A3A9BE',
+    900: '#121212',
+    700: '#3D3D3A',
+    500: '#6B6B66',
+    300: '#A8A8A2',
   },
   paper: '#FFFFFF',
-  sheet: '#F2F4F8',
-  rule: '#DCE0EA',
-  signature: {
-    50: '#EEF1FF',
-    100: '#DCE2FE',
-    500: '#2B44D9',
-    600: '#2236B8',
-    700: '#1B2B93',
-  },
-  highlight: '#FFE873',
+  sheet: '#F3F3F1',
+  rule: '#E2E2DD',
+  highlight: '#FFE45C',
   ok: '#16875A',
 };
 
@@ -56,7 +49,7 @@ export const theme = extendTheme({
       '::selection': { bg: 'highlight', color: 'ink.900' },
       ':focus-visible': {
         outline: '2px solid',
-        outlineColor: 'signature.500',
+        outlineColor: 'ink.900',
         outlineOffset: '3px',
       },
       '@media (prefers-reduced-motion: reduce)': {
@@ -89,10 +82,15 @@ export const theme = extendTheme({
       },
       variants: {
         primary: {
-          bg: 'signature.500',
+          bg: 'ink.900',
           color: 'white',
-          _hover: { bg: 'signature.600' },
-          _active: { bg: 'signature.700' },
+          _hover: { bg: '#2E2E2C' },
+          _active: { bg: 'black' },
+        },
+        highlight: {
+          bg: 'highlight',
+          color: 'ink.900',
+          _hover: { bg: '#F5D833' },
         },
         secondary: {
           bg: 'paper',
@@ -104,11 +102,24 @@ export const theme = extendTheme({
       },
       defaultProps: { variant: 'primary', size: 'md' },
     },
+    Radio: {
+      baseStyle: {
+        control: {
+          bg: 'paper',
+          borderColor: 'ink.300',
+          _checked: {
+            bg: 'ink.900',
+            borderColor: 'ink.900',
+            _hover: { bg: 'ink.900', borderColor: 'ink.900' },
+          },
+        },
+      },
+    },
     Input: {
-      defaultProps: { focusBorderColor: 'signature.500' },
+      defaultProps: { focusBorderColor: 'ink.900' },
     },
     Textarea: {
-      defaultProps: { focusBorderColor: 'signature.500' },
+      defaultProps: { focusBorderColor: 'ink.900' },
     },
   },
 });
